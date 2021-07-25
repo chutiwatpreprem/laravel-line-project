@@ -51,6 +51,10 @@ class LoginController extends Controller
 
     public function test()
     {
-        return response('test', 200);
+        //return response('test', 200);
+        return Socialite::driver('line-login')->with([
+            'prompt' => 'consent',
+            'bot_prompt' => 'normal',
+        ])->redirect();
     }
 }
