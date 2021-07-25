@@ -24,7 +24,6 @@ Route::get('/', function () {
 Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::get('callback', [LoginController::class, 'callback']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-Route::post('test', [LoginController::class, 'test'])->name('test');
 
 Route::middleware('auth')->group(function () {
     Route::get('notify/login', [NotifyController::class, 'login'])
