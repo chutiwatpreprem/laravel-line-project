@@ -51,6 +51,6 @@ class LoginController extends Controller
 
     public function test()
     {
-        return response()->json([], 200);
+        return response('test', 200);
     }
 }
