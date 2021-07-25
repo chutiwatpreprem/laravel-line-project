@@ -61,15 +61,15 @@ class LoginController extends Controller
 
         $signature = $request->header(LINEBot\Constant\HTTPHeader::LINE_SIGNATURE);
         if (!$signature) {
-            return $this->http403(LineHookHttpResponse::SIGNATURE_INVALID);
+            return $this->http403(App\Http\Controllers\LineHookHttpResponse::SIGNATURE_INVALID);
         }
 
         try {
             $bot->parseEventRequest($request->getContent(), $signature);
         } catch (LINEBot\Exception\InvalidSignatureException $exception) {
-            return $this->http403(LineHookHttpResponse::SIGNATURE_INVALID);
+            return $this->http403(App\Http\Controllers\LineHookHttpResponse::SIGNATURE_INVALID);
         } catch (LINEBot\Exception\InvalidEventRequestException $exception) {
-            return $this->http403(LineHookHttpResponse::EVENTS_INVALID);
+            return $this->http403(App\Http\Controllers\LineHookHttpResponse::EVENTS_INVALID);
         }
 
         $events = $request->events;
