@@ -74,25 +74,18 @@ class LoginController extends Controller
 
         $events = $request->events;
         foreach ($events as $event) {
+            if ($event['type'] != 'message') continue;
+            $messageType = $event['message']['type'];
+            $message = $event['message']['text'];
 
-            $response = $bot->replyText($event['replyToken'], 'ว่าไง...' . $events);
+            if ($messageType != 'text') continue;
+            $match = preg_match('/Gift|gift|กิ๊ฟ/', $message);
+            if (!$match) continue;
+            $response = $bot->replyText($event['replyToken'], $message);
             if ($response->isSucceeded()) {
                 logger('reply successfully');
                 return;
             }
-
-            // if ($event['type'] != 'message') continue;
-            // $messageType = $event['message']['type'];
-            // $message = $event['message']['text'];
-
-            // if ($messageType != 'text') continue;
-            // $match = preg_match('/Gift|gift|กิ๊ฟ/', $message);
-            // if (!$match) continue;
-            // $response = $bot->replyText($event['replyToken'], 'ว่าไง...' . $message);
-            // if ($response->isSucceeded()) {
-            //     logger('reply successfully');
-            //     return;
-            // }
         }
         return $this->http200('anchor');
     }
