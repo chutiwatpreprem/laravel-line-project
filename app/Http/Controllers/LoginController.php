@@ -80,9 +80,9 @@ class LoginController extends Controller
             $message = $event['message']['text'];
 
             if ($messageType != 'text') continue;
-            $match = preg_match('Gift', $message);
+            $match = preg_match('/Gift|gift|กิ๊ฟ/', $message);
             if (!$match) continue;
-            $response = $bot->replyText($event['replyToken'], 'ว่าไง...');
+            $response = $bot->replyText($event['replyToken'], 'ว่าไง...' . $message);
             if ($response->isSucceeded()) {
                 logger('reply successfully');
                 return;
