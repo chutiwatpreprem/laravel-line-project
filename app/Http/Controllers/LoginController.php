@@ -50,9 +50,10 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    public function test()
+    public function test(Request $request)
     {
-        LINE::replyText('Test');
-        //return response('test', 200);
+        $params = $request->all();
+        logger(json_encode($params, JSON_UNESCAPED_UNICODE));
+        return response('hello world', 200);
     }
 }
