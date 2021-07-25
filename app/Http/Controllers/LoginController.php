@@ -80,9 +80,9 @@ class LoginController extends Controller
             $message = $event['message']['text'];
 
             if ($messageType != 'text') continue;
-            $match = preg_match('/台灣|臺灣|Taiwan|taiwan/', $message);
+            $match = preg_match('Gift', $message);
             if (!$match) continue;
-            $response = $bot->replyText($event['replyToken'], '南波萬');
+            $response = $bot->replyText($event['replyToken'], 'ว่าไง...');
             if ($response->isSucceeded()) {
                 logger('reply successfully');
                 return;
