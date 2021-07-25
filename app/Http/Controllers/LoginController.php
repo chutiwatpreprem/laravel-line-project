@@ -52,7 +52,7 @@ class LoginController extends Controller
 
     public function test()
     {
-        LINE::replyText();
+        //LINE::replyText();
         return response('test', 200);
     }
 }
