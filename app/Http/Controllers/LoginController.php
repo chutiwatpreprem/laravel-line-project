@@ -61,20 +61,32 @@ class LoginController extends Controller
 
         $signature = $request->header(LINEBot\Constant\HTTPHeader::LINE_SIGNATURE);
         if (!$signature) {
-            return $this->http403(App\Http\Controllers\LineHookHttpResponse::SIGNATURE_INVALID);
+            return $this->http403(LineHookHttpResponse::SIGNATURE_INVALID);
         }
 
         try {
             $bot->parseEventRequest($request->getContent(), $signature);
         } catch (LINEBot\Exception\InvalidSignatureException $exception) {
-            return $this->http403(App\Http\Controllers\LineHookHttpResponse::SIGNATURE_INVALID);
+            return $this->http403(LineHookHttpResponse::SIGNATURE_INVALID);
         } catch (LINEBot\Exception\InvalidEventRequestException $exception) {
-            return $this->http403(App\Http\Controllers\LineHookHttpResponse::EVENTS_INVALID);
+            return $this->http403(LineHookHttpResponse::EVENTS_INVALID);
         }
 
         $events = $request->events;
         foreach ($events as $event) {
-            logger(json_encode($event));
+
+            if ($event['type'] != 'message') continue;
+            $messageType = $event['message']['type'];
+            $message = $event['message']['text'];
+
+            if ($messageType != 'text') continue;
+            $match = preg_match('/台灣|臺灣|Taiwan|taiwan/', $message);
+            if (!$match) continue;
+            $response = $bot->replyText($event['replyToken'], '南波萬');
+            if ($response->isSucceeded()) {
+                logger('reply successfully');
+                return;
+            }
         }
         return $this->http200('anchor');
     }
