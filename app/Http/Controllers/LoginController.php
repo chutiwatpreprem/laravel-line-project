@@ -77,11 +77,11 @@ class LoginController extends Controller
             if ($event['type'] != 'message') continue;
             $messageType = $event['message']['type'];
             $message = $event['message']['text'];
-
+            $uid = $event['source']['userId'];
             if ($messageType != 'text') continue;
             //$match = preg_match('/Gift|gift|กิ๊ฟ/', $message);
             //if (!$match) continue;
-            $response = $bot->replyText($event['replyToken'], $message);
+            $response = $bot->replyText($event['replyToken'], $message . ' ' . $uid);
             if ($response->isSucceeded()) {
                 logger('reply successfully');
                 return;
