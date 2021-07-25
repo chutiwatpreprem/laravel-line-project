@@ -76,6 +76,10 @@ class LoginController extends Controller
         foreach ($events as $event) {
 
             $response = $bot->replyText($event['replyToken'], 'ว่าไง...' . $events);
+            if ($response->isSucceeded()) {
+                logger('reply successfully');
+                return;
+            }
 
             // if ($event['type'] != 'message') continue;
             // $messageType = $event['message']['type'];
