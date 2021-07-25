@@ -48,4 +48,9 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+
+    public function test()
+    {
+        return response('test', 200);
+    }
 }
