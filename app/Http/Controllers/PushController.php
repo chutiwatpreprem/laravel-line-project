@@ -20,8 +20,8 @@ class PushController extends Controller
 
         $response = Bot::pushMessage($request->user()->line_id, $message);
 
-        if (! $response->isSucceeded()) {
-            logger()->error(static::class.$response->getHTTPStatus(), $response->getJSONDecodedBody());
+        if (!$response->isSucceeded()) {
+            logger()->error(static::class . $response->getHTTPStatus(), $response->getJSONDecodedBody());
         }
 
         return back();

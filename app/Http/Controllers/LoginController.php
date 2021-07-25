@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use LINE;
 
 class LoginController extends Controller
 {
@@ -51,10 +52,7 @@ class LoginController extends Controller
 
     public function test()
     {
+        LINE::replyText();
         return response('test', 200);
-        // return Socialite::driver('line-login')->with([
-        //     'prompt' => 'consent',
-        //     'bot_prompt' => 'normal',
-        // ])->redirect();
     }
 }
