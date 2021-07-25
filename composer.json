@@ -65,6 +65,10 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
         ],
-        "ide-helper:models": "php artisan ide-helper:models -N"
+        "ide-helper:models": "php artisan ide-helper:models -N",
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "chmod -R 777 public/"
+        ]
     }
 }
