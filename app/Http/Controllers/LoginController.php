@@ -115,8 +115,8 @@ class LoginController extends Controller
 
             // 回覆相片訊息
             $image = new LINEBot\MessageBuilder\ImageMessageBuilder(
-                'https://images.news18.com/ibnlive/uploads/2021/06/1622715559_disha.jpg?impolicy=website&width=510&height=356',
-                'https://images.news18.com/ibnlive/uploads/2021/06/1622715559_disha.jpg?impolicy=website&width=510&height=356'
+                'https://images.news18.com/ibnlive/uploads/2021/06/1622715559_disha.jpg',
+                'https://www.seoclerk.com/pics/000/940/831/fb9b15c1ad6730d8a2ee2c326afbcd27.png'
             );
             $messageBuilder->add($image);
 
