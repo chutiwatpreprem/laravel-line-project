@@ -76,57 +76,57 @@ class LoginController extends Controller
 
         $events = $request->events;
         foreach ($events as $event) {
-            // if ($event['type'] != 'message') continue;
-            // $messageType = $event['message']['type'];
-            // $message = $event['message']['text'];
-            // $uid = $event['source']['userId'];
-            // if ($messageType != 'text') continue;
-            // //$match = preg_match('/Gift|gift|กิ๊ฟ/', $message);
-            // //if (!$match) continue;
-            // $response = $bot->replyText($event['replyToken'], $message . '</br>' . $uid);
-            // if ($response->isSucceeded()) {
-            //     logger('reply successfully');
-            //     return;
-            // }
-
-            // 不是訊息的event先不處理
             if ($event['type'] != 'message') continue;
             $messageType = $event['message']['type'];
             $message = $event['message']['text'];
-
-            // 不是文字訊息的類型先不處理
+            $uid = $event['source']['userId'];
             if ($messageType != 'text') continue;
-            $match = preg_match('/台灣|臺灣|Taiwan|taiwan/', $message);
-            if (!$match) continue;
-
-            $messageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-
-            // 回覆文字
-            $text = new LINEBot\MessageBuilder\TextMessageBuilder('南波萬');
-            $messageBuilder->add($text);
-
-            // 回覆貼圖
-            $sticker = new LINEBot\MessageBuilder\StickerMessageBuilder('11537', '52002734');
-            $messageBuilder->add($sticker);
-
-            // 回覆地標
-            $location = new LINEBot\MessageBuilder\LocationMessageBuilder('台灣南波萬', '哇呆灣郎啦', '24.147666', '120.673552');
-            $messageBuilder->add($location);
-
-            // 回覆相片訊息
-            $image = new LINEBot\MessageBuilder\ImageMessageBuilder(
-                'https://images.news18.com/ibnlive/uploads/2021/06/1622715559_disha.jpg',
-                'https://www.seoclerk.com/pics/000/940/831/fb9b15c1ad6730d8a2ee2c326afbcd27.png'
-            );
-            $messageBuilder->add($image);
-
-            $response = $bot->replyMessage($event['replyToken'], $messageBuilder);
+            //$match = preg_match('/Gift|gift|กิ๊ฟ/', $message);
+            //if (!$match) continue;
+            $response = $bot->replyText($event['replyToken'], $message . '</br>' . $uid);
             if ($response->isSucceeded()) {
-                logger('reply sticker successfully');
-            } else {
-                Log::warning($response->getRawBody());
-                Log::warning('reply sticker failure');
+                logger('reply successfully');
+                return;
             }
+
+            // 不是訊息的event先不處理
+            // if ($event['type'] != 'message') continue;
+            // $messageType = $event['message']['type'];
+            // $message = $event['message']['text'];
+
+            // // 不是文字訊息的類型先不處理
+            // if ($messageType != 'text') continue;
+            // $match = preg_match('/台灣|臺灣|Taiwan|taiwan/', $message);
+            // if (!$match) continue;
+
+            // $messageBuilder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+
+            // // 回覆文字
+            // $text = new LINEBot\MessageBuilder\TextMessageBuilder('南波萬');
+            // $messageBuilder->add($text);
+
+            // // 回覆貼圖
+            // $sticker = new LINEBot\MessageBuilder\StickerMessageBuilder('11537', '52002734');
+            // $messageBuilder->add($sticker);
+
+            // // 回覆地標
+            // $location = new LINEBot\MessageBuilder\LocationMessageBuilder('台灣南波萬', '哇呆灣郎啦', '24.147666', '120.673552');
+            // $messageBuilder->add($location);
+
+            // // 回覆相片訊息
+            // $image = new LINEBot\MessageBuilder\ImageMessageBuilder(
+            //     'https://images.news18.com/ibnlive/uploads/2021/06/1622715559_disha.jpg',
+            //     'https://www.seoclerk.com/pics/000/940/831/fb9b15c1ad6730d8a2ee2c326afbcd27.png'
+            // );
+            // $messageBuilder->add($image);
+
+            // $response = $bot->replyMessage($event['replyToken'], $messageBuilder);
+            // if ($response->isSucceeded()) {
+            //     logger('reply sticker successfully');
+            // } else {
+            //     Log::warning($response->getRawBody());
+            //     Log::warning('reply sticker failure');
+            // }
         }
         return $this->http200('anchor');
     }
@@ -148,7 +148,7 @@ class LoginController extends Controller
         ]);
 
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($request['name']);
-        $response = $bot->pushMessage('U3dec64d956dfd6c925a98188f83fd37b', $textMessageBuilder);
+        $response = $bot->pushMessage(env('LINE_NOTIFY_CLIENT_ID'), $textMessageBuilder);
 
         echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
     }
